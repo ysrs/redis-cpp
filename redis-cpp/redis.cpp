@@ -6,7 +6,8 @@
 
 #pragma comment(lib, "ws2_32.lib")
 
-Redis::Redis(const std::string& host, int port) : host(host), port(port), sockfd(INVALID_SOCKET)
+Redis::Redis(const std::string& host, int port, const std::string& password) :
+    host(host), port(port), password(password), sockfd(INVALID_SOCKET)
 {
     if (!InitializeWinsock())
     {
@@ -49,6 +50,18 @@ bool Redis::Connect()
         std::cerr << "Connection Failed. Error code: " << WSAGetLastError() << std::endl;
         closesocket(sockfd);
         return false;
+    }
+
+    if (!password.empty())
+    {
+        std::string authCommand = "AUTH " + password;
+        std::string authResult = ExecuteCommand(authCommand);
+        if (authResult != "+OK")
+        {
+            std::cerr << "Authentication failed: " << authResult << std::endl;
+            Disconnect();
+            return false;
+        }
     }
 
     return true;

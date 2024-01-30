@@ -3,9 +3,10 @@
 
 int main()
 {
-    Redis redis("127.0.0.1", 6379);
+    Redis redis("127.0.0.1", 6379, "foobared");
 
-    if (redis.Connect()) {
+    if (redis.Connect())
+    {
         std::cout << "Connected to Redis server." << std::endl;
 
         std::string result = redis.ExecuteCommand("SET key1 value1");
@@ -16,9 +17,11 @@ int main()
 
         redis.Disconnect();
     }
-    else {
+    else
+    {
         std::cerr << "Failed to connect to Redis server." << std::endl;
     }
 
     return 0;
 }
+
