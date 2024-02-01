@@ -9,7 +9,7 @@
 class Redis
 {
 public:
-    Redis(const std::string& host, int port, const std::string& password);
+    Redis(const std::string& host, int port, const std::string& password, int db);
     ~Redis();
 
     bool Connect();
@@ -17,9 +17,10 @@ public:
     std::string ExecuteCommand(const std::string& command);
 
 private:
-    std::string password;
     std::string host;
     int port;
+    std::string password;
+    int db;
     SOCKET sockfd;
 
     bool InitializeWinsock();

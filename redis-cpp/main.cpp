@@ -3,7 +3,7 @@
 
 int main()
 {
-    Redis redis("127.0.0.1", 6379, "foobared");
+    Redis redis("127.0.0.1", 6379, "foobared", 1);
 
     if (redis.Connect())
     {
